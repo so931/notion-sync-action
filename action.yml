@@ -1,0 +1,63 @@
+name: 'Notion Sync'
+description: 'Sync markdown documents to Notion with bidirectional links'
+author: 'Your Name'
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
+
+inputs:
+  notion-token:
+    description: 'Notion Integration Token'
+    required: true
+  
+  github-token:
+    description: 'GitHub Token for updating markdown files'
+    default: ${{ github.token }}
+    required: false
+  
+  database-id:
+    description: 'Notion Database ID for syncing'
+    required: false
+  
+  parent-page-id:
+    description: 'Parent page ID for standalone pages'
+    required: false
+  
+  files-pattern:
+    description: 'Glob pattern for markdown files'
+    default: '**/*.md'
+    required: false
+  
+  config-file:
+    description: 'Path to sync configuration file'
+    default: '.notion-sync.yml'
+    required: false
+  
+  dry-run:
+    description: 'Preview changes without syncing'
+    default: 'false'
+    required: false
+  
+  enable-bidirectional-links:
+    description: 'Add Notion URLs to markdown and GitHub URLs to Notion'
+    default: 'true'
+    required: false
+    
+  link-style:
+    description: 'Style for links (yaml|comment for markdown, callout|property for Notion)'
+    default: 'yaml,callout'
+    required: false
+
+outputs:
+  synced-count:
+    description: 'Number of pages synced'
+  
+  page-urls:
+    description: 'JSON array of synced page URLs'
+  
+  sync-report:
+    description: 'Detailed sync report'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
